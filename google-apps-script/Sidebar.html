@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Basic reset and styling for add-on environment */
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; background-color: #f0f0f0; }
+        
+        /* Main container for the viewer and controls */
+        #app-container { display: flex; flex-direction: column; width: 100%; height: 100%; }
+
+        /* Controls panel at the top */
+        #controls { padding: 10px; background: rgba(255,255,255,0.95); z-index: 10; border-bottom: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        #controls h3 { margin: 0 0 8px 0; font-size: 1.1em; }
+        #controls p { margin: 0 0 10px 0; font-size: 0.9em; }
+        input[type="file"] { margin-bottom: 10px; display: block; width: 100%; }
+        button { padding: 8px 15px; background-color: #4285f4; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%; }
+        button:hover { background-color: #357ae8; }
+
+        /* Viewer container takes the remaining space */
+        #viewer-container { flex-grow: 1; position: relative; }
+
+        /* Loading message overlay */
+        #loading-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 30px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 20;
+            display: none; /* Hidden by default */
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .info-text { font-size: 0.8em; margin-top: 10px; color: #555; text-align: center;}
+    </style>
+  </head>
+  <body>
+    <div id="app-container">
+        <div id="controls">
+            <h3>BIM .ifc Model Loader</h3>
+            <p>Select a local <code>.ifc</code> file to view.</p>
+            <input type="file" id="ifcFile" accept=".ifc">
+            <button id="snapshotButton" disabled>Copy Snapshot to Clipboard</button>
+            <div class="info-text">
+                Powered by <a href="https://github.com/ThatOpen/engine_fragment" target="_blank">ThatOpen</a>
+            </div>
+        </div>
+        <div id="viewer-container">
+            <div id="loading-message">
+                <p>Loading model...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import map for our ES modules -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+            "three/": "https://unpkg.com/three@0.158.0/",
+            "@thatopen/fragments": "https://esm.sh/@thatopen/fragments@3.0.0?external=three",
+            "@thatopen/components": "https://esm.sh/@thatopen/components@2.4.11"
+        }
+    }
+    </script>
+    
+    <!-- Apps Script will inject the main.js.html content here -->
+    <?!= include('main.js'); ?>
+  </body>
+</html> 
